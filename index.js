@@ -20,9 +20,9 @@ module.exports = function(opts) {
         throw new PluginError(PLUGIN_NAME, 'Only single file outputs with `out` or multiple files outputs width `appDir` !');
     }
 
-    if (!opts.baseUrl) {
-        throw new PluginError(PLUGIN_NAME, 'Pipeing dirs/files is not supported right now, please specify the base path for your script.');
-    }
+    // if (!opts.baseUrl) {
+    //     throw new PluginError(PLUGIN_NAME, 'Pipeing dirs/files is not supported right now, please specify the base path for your script.');
+    // }
 
     // create the stream and save the file name (opts.out will be replaced by a callback function later)
     var _s     = es.pause(),
