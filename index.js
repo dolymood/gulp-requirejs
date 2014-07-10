@@ -34,7 +34,7 @@ module.exports = function(opts) {
     // try {
         optimize(opts, function(text) {
             _s.resume();
-            if (opts.out) {
+            if (_fName) {
                 _s.end(new File({
                     path: _fName,
                     contents: new Buffer(text)
@@ -54,7 +54,9 @@ module.exports = function(opts) {
 
 // a small wrapper around the r.js optimizer
 function optimize(opts, cb) {
-    opts.out = cb;
+    if (opts.out) {
+        opts.out = cb;
+    }
     opts.optimize = opts.optimize || 'none';
     requirejs.optimize(opts);
 }
