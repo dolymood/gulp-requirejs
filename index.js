@@ -16,8 +16,8 @@ module.exports = function(opts) {
         throw new PluginError(PLUGIN_NAME, 'Missing options array!');
     }
 
-    if (!opts.out && typeof opts.out !== 'string') {
-        throw new PluginError(PLUGIN_NAME, 'Only single file outputs are supported right now, please pass a valid output file name!');
+    if (!((opts.out && typeof opts.out === 'string') || (opts.appDir && typeof opts.appDir === 'string'))) {
+        throw new PluginError(PLUGIN_NAME, 'Only single file outputs with `out` or multiple files outputs width `appDir` !');
     }
 
     if (!opts.baseUrl) {
@@ -34,10 +34,13 @@ module.exports = function(opts) {
     // try {
         optimize(opts, function(text) {
             _s.resume();
-            _s.end(new File({
-                path: _fName,
-                contents: new Buffer(text)
-            }));
+            if (opts.out) {
+                _s.end(new File({
+                    path: _fName,
+                    contents: new Buffer(text)
+                }));
+            }
+            
         });
     // } catch (err) {
     //     _s.emit('error', err);
@@ -52,6 +55,6 @@ module.exports = function(opts) {
 // a small wrapper around the r.js optimizer
 function optimize(opts, cb) {
     opts.out = cb;
-    opts.optimize = 'none';
+    opts.optimize = opts.optimize || 'none';
     requirejs.optimize(opts);
 }
