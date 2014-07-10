@@ -58,5 +58,5 @@ function optimize(opts, cb) {
         opts.out = cb;
     }
     opts.optimize = opts.optimize || 'none';
-    requirejs.optimize(opts);
+    requirejs.optimize(opts, opts.onFinish || function() {});
 }
